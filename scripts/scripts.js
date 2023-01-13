@@ -5,12 +5,14 @@ const valueButtons = document.querySelectorAll(".value-button");
 const operatorButtons = document.querySelectorAll(".operation");
 const equalsButton = document.querySelector(".equals");
 const clearButton = document.querySelector(".clear");
+const deleteButton = document.querySelector(".delete");
 
 let prevValue = 0;
 let currentValue = 0;
 let isDoingAnOperation = false;
 let currentOperator = "";
 let clickedOnce = false;
+let displayingResult = false;
 
 //Functions --------------------------------------------------------------
 
@@ -49,6 +51,8 @@ function displayResult() {
     currentOperator = "";
     clickedOnce = false;
   } else {
+    displayingResult = true;
+
     result.textContent =
       Math.round(operate(currentOperator, prevValue, currentValue) * 100) / 100;
   }
@@ -78,6 +82,7 @@ valueButtons.forEach((button) => {
       currentValue = Number(result.textContent);
 
       isDoingAnOperation = false;
+      displayingResult = false;
     } else {
       if (
         !(button.textContent === "." && result.textContent.indexOf(".") > -1)
@@ -85,6 +90,7 @@ valueButtons.forEach((button) => {
         result.textContent += button.textContent;
 
         currentValue = Number(result.textContent);
+        displayingResult = false;
       }
     }
   });
@@ -103,6 +109,22 @@ operatorButtons.forEach((button) => {
       clickedOnce = true;
     }
   });
+});
+
+deleteButton.addEventListener("click", () => {
+  if (
+    !displayingResult &&
+    ((!clickedOnce && result.textContent !== "0") ||
+      result.textContent !== "ERROR")
+  ) {
+    if (!clickedOnce && result.textContent.length <= 1) {
+      result.textContent = "0";
+    } else {
+      result.textContent = result.textContent.slice(0, -1);
+
+      currentValue = result.textContent ? Number(result.textContent) : 0;
+    }
+  }
 });
 
 equalsButton.addEventListener("click", displayResult);
