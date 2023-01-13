@@ -40,7 +40,8 @@ function operate(operator, num1, num2) {
 }
 
 function displayResult() {
-  result.textContent = operate(currentOperator, prevValue, currentValue);
+  result.textContent =
+    Math.round(operate(currentOperator, prevValue, currentValue) * 100) / 100;
 }
 
 //Events -----------------------------------------------------------------
