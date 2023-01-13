@@ -4,6 +4,7 @@ const result = document.querySelector(".result");
 const valueButtons = document.querySelectorAll(".value-button");
 const operatorButtons = document.querySelectorAll(".operation");
 const equalsButton = document.querySelector(".equals");
+const clearButton = document.querySelector(".clear");
 
 let prevValue = 0;
 let currentValue = 0;
@@ -42,6 +43,15 @@ function operate(operator, num1, num2) {
 function displayResult() {
   result.textContent =
     Math.round(operate(currentOperator, prevValue, currentValue) * 100) / 100;
+}
+
+function clear() {
+  result.textContent = "0";
+  prevValue = 0;
+  currentValue = 0;
+  isDoingAnOperation = false;
+  currentOperator = "";
+  clickedOnce = false;
 }
 
 //Events -----------------------------------------------------------------
@@ -83,3 +93,5 @@ operatorButtons.forEach((button) => {
 });
 
 equalsButton.addEventListener("click", displayResult);
+
+clearButton.addEventListener("click", clear);
