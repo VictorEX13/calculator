@@ -1,3 +1,10 @@
+//Elements ---------------------------------------------------------------
+
+const result = document.querySelector(".result");
+const valueButtons = document.querySelectorAll(".value-button");
+
+//Functions --------------------------------------------------------------
+
 function addition(num1, num2) {
   return num1 + num2;
 }
@@ -23,3 +30,19 @@ function operate(operator, num1, num2) {
     ? multiplication(num1, num2)
     : division(num1, num2);
 }
+
+//Events -----------------------------------------------------------------
+
+valueButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (result.textContent === "0") {
+      result.textContent = button.textContent;
+    } else {
+      if (
+        !(button.textContent === "." && result.textContent.indexOf(".") > -1)
+      ) {
+        result.textContent += button.textContent;
+      }
+    }
+  });
+});
