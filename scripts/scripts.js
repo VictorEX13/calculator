@@ -42,7 +42,7 @@ function operate(operator, num1, num2) {
     : addition(num1, num2);
 }
 
-function displayResult() {
+function displayResult(clickedOnEquals) {
   if (currentOperator === "/" && currentValue === 0) {
     result.textContent = "ERROR";
     prevValue = 0;
@@ -51,7 +51,7 @@ function displayResult() {
     currentOperator = "";
     clickedOnce = false;
   } else {
-    displayingResult = true;
+    displayingResult = clickedOnEquals;
 
     result.textContent =
       Math.round(operate(currentOperator, prevValue, currentValue) * 100) / 100;
@@ -71,6 +71,10 @@ function clear() {
 
 valueButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    if (displayingResult) {
+      clear();
+    }
+
     if (
       result.textContent === "0" ||
       result.textContent === "ERROR" ||
@@ -100,7 +104,7 @@ operatorButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (!isDoingAnOperation) {
       if (clickedOnce) {
-        displayResult();
+        displayResult(false);
       }
 
       currentOperator = button.textContent;
@@ -127,6 +131,8 @@ deleteButton.addEventListener("click", () => {
   }
 });
 
-equalsButton.addEventListener("click", displayResult);
+equalsButton.addEventListener("click", () => {
+  displayResult(true);
+});
 
 clearButton.addEventListener("click", clear);
